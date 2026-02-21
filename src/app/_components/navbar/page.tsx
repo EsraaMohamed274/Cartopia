@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { usePathname } from "next/navigation";
-import { ShoppingCart, User, Menu, X, LogOut, Heart, Package } from "lucide-react";
+import { ShoppingCart, User, Menu, X, LogOut, Heart, Package, KeyRound } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSession, signOut } from "next-auth/react";
 import { CartContext } from "@/context/cartContext";
@@ -21,8 +21,8 @@ export default function Navbar() {
     { name: "Brands", href: "/brands" },
   ];
 
-  const navLinks = session 
-    ? [...baseLinks, { name: "All Orders", href: "/allorders" }] 
+  const navLinks = session
+    ? [...baseLinks, { name: "All Orders", href: "/allorders" }]
     : baseLinks;
 
   const isActive = (href: string) => pathname === href;
@@ -30,7 +30,7 @@ export default function Navbar() {
   return (
     <nav className="w-full bg-white/80 backdrop-blur-md shadow-sm fixed top-0 left-0 z-50 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-        
+
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-10 h-10 bg-emerald-900 text-white flex items-center justify-center rounded-xl font-bold shadow-lg group-hover:rotate-12 transition-transform">
@@ -47,11 +47,10 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm tracking-tight transition-all duration-300 relative pb-1 ${
-                isActive(link.href)
+              className={`text-sm tracking-tight transition-all duration-300 relative pb-1 ${isActive(link.href)
                   ? "text-emerald-700 after:w-full"
                   : "text-gray-500 hover:text-emerald-900 after:w-0"
-              } after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-emerald-600 after:transition-all`}
+                } after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-emerald-600 after:transition-all`}
             >
               {link.name}
             </Link>
@@ -67,7 +66,7 @@ export default function Navbar() {
               </Link>
               <Link href="/shoppingCart" className="relative text-gray-600 hover:text-emerald-700 transition-colors">
                 <ShoppingCart size={20} />
-                <motion.span 
+                <motion.span
                   key={numberOfItems}
                   initial={{ scale: 0.5 }}
                   animate={{ scale: 1 }}
@@ -105,11 +104,17 @@ export default function Navbar() {
                         className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-100 rounded-2xl shadow-xl py-2 z-50"
                       >
                         <div className="px-4 py-2 border-b border-gray-50 mb-1">
-                           <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Logged in as</p>
-                           <p className="text-xs font-bold text-emerald-900 truncate">{session.user?.email}</p>
+                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Logged in as</p>
+                          <p className="text-xs font-bold text-emerald-900 truncate">{session.user?.email}</p>
                         </div>
                         <Link href="/allorders" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 transition">
                           <Package size={16} /> My Orders
+                        </Link>
+                        <Link
+                          href="/changePassword" 
+                          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 transition"
+                        >
+                          <KeyRound size={16} /> Change Password
                         </Link>
                         <button
                           onClick={() => signOut({ callbackUrl: "/" })}
@@ -162,7 +167,7 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
-              
+
               {session && (
                 <div className="pt-4 border-t border-gray-100 flex gap-6">
                   <Link href="/shoppingCart" className="relative text-emerald-900">

@@ -16,7 +16,6 @@ export async function CheckPayment(
 ) {
   try {
     const token = await GetMyToken();
-    // The base URL of your application (e.g., http://localhost:3000)
     const url = process.env.NEXT_URL;
 
     if (!token) {

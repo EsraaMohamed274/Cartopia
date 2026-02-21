@@ -107,48 +107,36 @@ export default function ShoppingCart() {
       ) : products.length > 0 ? (
         <div className="max-w-6xl mx-auto">
           {/* Header Section */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-            <div>
-              <h1 className="text-4xl font-black text-emerald-900 tracking-tighter uppercase mb-2">
-                My Shopping Cart
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 pb-6 border-b border-gray-100 gap-6">
+            <div className="space-y-1">
+              <h1 className="text-4xl font-black text-emerald-900 tracking-tighter uppercase">
+                My Shopping Bag
               </h1>
-              <p className="text-gray-500 font-medium">
-                You have{" "}
-                <span className="text-emerald-600 font-bold">
-                  {numberOfItems}
-                </span>{" "}
-                items in your bag
-              </p>{" "}
+              <p className="text-gray-500 font-medium flex items-center gap-2">
+                You have
+                <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-sm font-bold">
+                  {numberOfItems} Items
+                </span>
+                waiting for you
+              </p>
             </div>
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-              <div>
-                <h1 className="text-4xl font-black text-emerald-900 tracking-tighter uppercase mb-2">
-                  My Shopping Cart
-                </h1>
-                <p className="text-gray-500 font-medium">
-                  You have{" "}
-                  <span className="text-emerald-600 font-bold">
-                    {numberOfItems}
-                  </span>{" "}
-                  items in your bag
-                </p>
-              </div>
 
+            <div className="flex items-center gap-4">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="text-rose-400 hover:text-rose-600 hover:bg-rose-50/50 font-bold flex items-center gap-2 transition-colors rounded-xl"
+                    className="group text-rose-400 hover:text-rose-600 hover:bg-rose-50 font-bold flex items-center gap-2 transition-all rounded-2xl px-4"
                   >
-                    <Trash2 size={18} strokeWidth={2.5} />
-                    <span className="tracking-tight">Clear Bag</span>
+                    <Trash2 size={18} className="group-hover:rotate-12 transition-transform" />
+                    <span className="tracking-tight">Empty Cart</span>
                   </Button>
                 </AlertDialogTrigger>
 
                 <AlertDialogContent className="rounded-[3rem] p-10 border-none bg-white shadow-[0_30px_70px_rgba(0,0,0,0.1)] max-w-md">
+                  {/* كل حاجة لازم تكون هنا جوه المحتوى */}
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-20 h-20 bg-rose-50 text-rose-500 rounded-4xl flex items-center justify-center mb-6 animate-bounce-short">
+                    <div className="w-20 h-20 bg-rose-50 text-rose-500 rounded-4xl flex items-center justify-center mb-6">
                       <ShoppingBag size={36} />
                     </div>
 
@@ -157,8 +145,7 @@ export default function ShoppingCart() {
                         Wait a second!
                       </AlertDialogTitle>
                       <AlertDialogDescription className="text-gray-500 font-medium leading-relaxed">
-                        Your cart looks amazing. Are you sure you want to empty
-                        it and lose these treasures?
+                        Your cart looks amazing. Are you sure you want to empty it and lose these treasures?
                       </AlertDialogDescription>
                     </AlertDialogHeader>
 
@@ -166,6 +153,7 @@ export default function ShoppingCart() {
                       <AlertDialogCancel className="flex-1 rounded-2xl font-black py-7 border-none bg-gray-50 text-emerald-900 hover:bg-gray-100 transition-all uppercase text-xs tracking-widest">
                         No, keep them
                       </AlertDialogCancel>
+
                       <AlertDialogAction
                         onClick={clearProductFromCart}
                         className="flex-1 bg-emerald-950 hover:bg-rose-600 text-white rounded-2xl font-black py-7 shadow-xl shadow-emerald-950/10 transition-all active:scale-95 uppercase text-xs tracking-widest"
@@ -240,52 +228,52 @@ export default function ShoppingCart() {
                         </button>
                       </div>
 
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <button className="text-[10px] font-black uppercase text-rose-400 hover:text-rose-600 tracking-[0.15em] transition-all hover:scale-105 active:scale-95">
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <button className="text-[10px] font-black uppercase text-rose-400 hover:text-rose-600 tracking-[0.15em] transition-all hover:scale-105 active:scale-95">
+                            Remove
+                          </button>
+                        </AlertDialogTrigger>
+
+                        <AlertDialogContent className="rounded-[2.5rem] p-8 border-none bg-white/95 backdrop-blur-md shadow-2xl max-w-100">
+                          <AlertDialogHeader className="flex flex-col items-center text-center">
+                            <div className="w-16 h-16 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mb-4">
+                              <Trash2 size={28} strokeWidth={1.5} />
+                            </div>
+
+                            <AlertDialogTitle className="text-2xl font-black text-emerald-950 uppercase tracking-tighter">
+                              Remove Item?
+                            </AlertDialogTitle>
+
+                            <AlertDialogDescription className="text-gray-500 font-medium px-2">
+                              Are you sure you want to remove{" "}
+                              <span className="text-emerald-700 font-bold">
+                                {prod.product.title}
+                              </span>
+                              ? You can always add it back later!
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+
+                          <AlertDialogFooter className="mt-8 flex gap-3">
+                            <AlertDialogCancel className="flex-1 rounded-2xl font-bold py-6 border-none bg-gray-50 text-emerald-900 hover:bg-gray-100 transition-all">
+                              Keep it
+                            </AlertDialogCancel>
+
+                            <AlertDialogAction
+                              disabled={disabledFlag}
+                              onClick={() =>
+                                removeProductFromCart(
+                                  prod.product.id,
+                                  prod.count,
+                                )
+                              }
+                              className="flex-1 bg-rose-500 hover:bg-rose-600 text-white rounded-2xl font-bold py-6 shadow-lg shadow-rose-200 transition-all active:scale-95"
+                            >
                               Remove
-                            </button>
-                          </AlertDialogTrigger>
-
-                          <AlertDialogContent className="rounded-[2.5rem] p-8 border-none bg-white/95 backdrop-blur-md shadow-2xl max-w-100">
-                            <AlertDialogHeader className="flex flex-col items-center text-center">
-                              <div className="w-16 h-16 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mb-4">
-                                <Trash2 size={28} strokeWidth={1.5} />
-                              </div>
-
-                              <AlertDialogTitle className="text-2xl font-black text-emerald-950 uppercase tracking-tighter">
-                                Remove Item?
-                              </AlertDialogTitle>
-
-                              <AlertDialogDescription className="text-gray-500 font-medium px-2">
-                                Are you sure you want to remove{" "}
-                                <span className="text-emerald-700 font-bold">
-                                  {prod.product.title}
-                                </span>
-                                ? You can always add it back later!
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-
-                            <AlertDialogFooter className="mt-8 flex gap-3">
-                              <AlertDialogCancel className="flex-1 rounded-2xl font-bold py-6 border-none bg-gray-50 text-emerald-900 hover:bg-gray-100 transition-all">
-                                Keep it
-                              </AlertDialogCancel>
-
-                              <AlertDialogAction
-                                disabled={disabledFlag}
-                                onClick={() =>
-                                  removeProductFromCart(
-                                    prod.product.id,
-                                    prod.count,
-                                  )
-                                }
-                                className="flex-1 bg-rose-500 hover:bg-rose-600 text-white rounded-2xl font-bold py-6 shadow-lg shadow-rose-200 transition-all active:scale-95"
-                              >
-                                Remove
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </div>
                   </div>
 
